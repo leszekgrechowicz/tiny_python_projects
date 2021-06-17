@@ -4,7 +4,7 @@
 import os
 from subprocess import getoutput
 
-prg = './picnic.py'
+prg = os.getcwd() + './picnic.py'
 
 
 # --------------------------------------------------

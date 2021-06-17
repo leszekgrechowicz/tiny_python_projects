@@ -4,7 +4,8 @@
 import os
 from subprocess import getstatusoutput, getoutput
 
-prg = './crowsnest.py'
+prg = os.getcwd() + './crowsnest.py'
+
 consonant_words = [
     'brigantine', 'clipper', 'dreadnought', 'frigate', 'galleon', 'haddock',
     'junk', 'ketch', 'longboat', 'mullet', 'narwhal', 'porpoise', 'quay',
@@ -12,7 +13,7 @@ consonant_words = [
     'zebrafish'
 ]
 vowel_words = ['aviso', 'eel', 'iceberg', 'octopus', 'upbound']
-template = 'Ahoy, Captain, {} {} off the larboard bow!'
+template = 'Ahoy, Captain, {} {} off the {} bow!'
 
 
 # --------------------------------------------------
@@ -38,16 +39,16 @@ def test_consonant():
 
     for word in consonant_words:
         out = getoutput(f'{prg} {word}')
-        assert out.strip() == template.format('a', word)
+        assert out.strip() == template.format('a', word, 'larboard')
 
 
 # --------------------------------------------------
 def test_consonant_upper():
-    """brigantine -> a Brigatine"""
+    """Brigantine -> A Brigantine"""
 
     for word in consonant_words:
         out = getoutput(f'{prg} {word.title()}')
-        assert out.strip() == template.format('a', word.title())
+        assert out.strip() == template.format('A', word.title(), 'larboard')
 
 
 # --------------------------------------------------
@@ -56,13 +57,24 @@ def test_vowel():
 
     for word in vowel_words:
         out = getoutput(f'{prg} {word}')
-        assert out.strip() == template.format('an', word)
+        assert out.strip() == template.format('an', word, 'larboard')
 
 
 # --------------------------------------------------
 def test_vowel_upper():
-    """octopus -> an Octopus"""
+    """Octopus -> An Octopus"""
 
     for word in vowel_words:
         out = getoutput(f'{prg} {word.upper()}')
-        assert out.strip() == template.format('an', word.upper())
+        assert out.strip() == template.format('An', word.upper(), 'larboard')
+
+
+# --------------------------------------------------
+def test_larboard_starboard():
+    """larboard to starboard with flag --starboard"""
+
+    out = getoutput(f'{prg} test --starboard')
+
+    assert out.strip() == template.format('a', 'test', 'starboard')
+
+
