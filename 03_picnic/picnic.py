@@ -13,38 +13,23 @@ def get_args():
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Rock the Casbah',
+        description='Picnic Game',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('item',
-                        metavar='str',
-                        help='A positional argument')
+                        nargs='+',
+                        metavar='string',
+                        help='Items(s) to bring')
 
-    # parser.add_argument('-a',
-    #                     '--arg',
-    #                     help='A named string argument',
-    #                     metavar='str',
-    #                     type=str,
-    #                     default='')
-    #
-    # parser.add_argument('-i',
-    #                     '--int',
-    #                     help='A named integer argument',
-    #                     metavar='int',
-    #                     type=int,
-    #                     default=0)
-    #
-    # parser.add_argument('-f',
-    #                     '--file',
-    #                     help='A readable file',
-    #                     metavar='FILE',
-    #                     type=argparse.FileType('rt'),
-    #                     default=None)
-    #
-    # parser.add_argument('-o',
-    #                     '--on',
-    #                     help='A boolean flag',
-    #                     action='store_true')
+    parser.add_argument('-s',
+                        '--sorted',
+                        help='Sort the items',
+                        action='store_true')
+
+    parser.add_argument('-o',
+                        '--no_oxford',
+                        help='Oxford comma disabled',
+                        action='store_true')
 
     return parser.parse_args()
 
@@ -54,11 +39,28 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
+    items = args.item
 
-    item = args.item
+    q = -1                  # comma range
+    if args.no_oxford:
+        q = -2
 
+    if args.sorted:
+        items.sort()
 
-    print(f'You are bringing {item}.')
+    number_of_items = len(items)
+
+    if number_of_items > 1:
+        items.insert(-1, 'and')
+        if number_of_items > 2:
+            text = ', '.join(items[:q]) + ' ' + ' '.join(items[q:])
+        else:
+            text = ' '.join(items)
+
+    else:
+        text = items[0]
+
+    print(f'You are bringing {text}.')
 
 
 # --------------------------------------------------
