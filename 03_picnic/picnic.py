@@ -48,10 +48,13 @@ def main():
     items = args.item
     character = args.character
 
-    q = -1                  # comma range
+    # oxford comma presence option
 
+    q = -1                          # comma range --> '-1' all but last 2
     if args.no_oxford:
         q = -2
+
+    # sort items option
 
     if args.sorted:
         items.sort()
