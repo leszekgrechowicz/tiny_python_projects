@@ -78,6 +78,7 @@ def test_omit_oxford_comma():
     assert out.strip() == expected
 
 
+# --------------------------------------------------
 def test_omit_oxford_comma_sorted():
     """more than two items Oxford comma omitted and sorted"""
 
@@ -85,3 +86,14 @@ def test_omit_oxford_comma_sorted():
     out = getoutput(f'{prg} {arg} --no_oxford --sorted')
     expected = 'You are bringing apples, bananas, cherries and dates.'
     assert out.strip() == expected
+
+
+# --------------------------------------------------
+def test_word_separation_option():
+    """word separation character"""
+
+    for character in [':', '@', ';']:
+        arg = 'apples bananas cherries dates'
+        out = getoutput(f'{prg} {arg} --character {character}')
+        expected = f'You are bringing apples{character} bananas{character} cherries{character} and dates.'
+        assert out.strip() == expected

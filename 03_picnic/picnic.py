@@ -26,10 +26,16 @@ def get_args():
                         help='Sort the items',
                         action='store_true')
 
-    parser.add_argument('-o',
+    parser.add_argument('-n',
                         '--no_oxford',
                         help='Oxford comma disabled',
                         action='store_true')
+
+    parser.add_argument('-c',
+                        '--character',
+                        help='Separation character',
+                        choices=[':', '@', ';'],
+                        default=',')
 
     return parser.parse_args()
 
@@ -40,8 +46,10 @@ def main():
 
     args = get_args()
     items = args.item
+    character = args.character
 
     q = -1                  # comma range
+
     if args.no_oxford:
         q = -2
 
@@ -53,7 +61,7 @@ def main():
     if number_of_items > 1:
         items.insert(-1, 'and')
         if number_of_items > 2:
-            text = ', '.join(items[:q]) + ' ' + ' '.join(items[q:])
+            text = f'{character} '.join(items[:q]) + ' ' + ' '.join(items[q:])
         else:
             text = ' '.join(items)
 
