@@ -4,7 +4,7 @@
 import os
 from subprocess import getstatusoutput
 
-prg = './jump.py'
+prg = os.getcwd() + './jump_the_five.py'
 
 
 # --------------------------------------------------
@@ -40,3 +40,6 @@ def test_02():
     rv, out = getstatusoutput(f'{prg} "That number to call is 098-765-4321."')
     assert rv == 0
     assert out.rstrip() == 'That number to call is 512-340-6789.'
+
+
+
