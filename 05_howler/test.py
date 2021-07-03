@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """tests for howler.py"""
 
 import os
@@ -7,7 +8,7 @@ import random
 import string
 from subprocess import getstatusoutput, getoutput
 
-prg = './howler.py'
+prg = os.getcwd() + './howler.py'
 
 
 # --------------------------------------------------

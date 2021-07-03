@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""Howler"""
+# -*- coding: utf-8 -*-
+"""
+Author : Leszek Grechowicz <leszek_grechowicz@o2.pl>
+Date   : 2021-06-20
+Purpose: Howler (upper-cases input)
+"""
 
 import argparse
 import os
-import sys
 
 
 # --------------------------------------------------
 def get_args():
-    """get command-line arguments"""
+    """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
         description='Howler (upper-cases input)',
@@ -16,7 +20,6 @@ def get_args():
 
     parser.add_argument('text',
                         metavar='text',
-                        type=str,
                         help='Input string or file')
 
     parser.add_argument('-o',
@@ -26,14 +29,13 @@ def get_args():
                         type=str,
                         default='')
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    if os.path.isfile(args.text):
-        args.text = open(args.text).read().rstrip()
 
-    print(args)
+# -------------------------------------------------
 
-    return args
+def print_upper(text):
+    return text.upper()
 
 
 # --------------------------------------------------
@@ -41,9 +43,23 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    out_fh = open(args.outfile, 'wt') if args.outfile else sys.stdout
-    out_fh.write(args.text.upper() + '\n')
-    out_fh.close()
+    text = args.text
+    to_file = args.outfile
+    file_exist = os.path.isfile(text)
+
+    if file_exist and not to_file:
+        with open(text) as file:
+            print_upper(file.read())
+
+    elif file_exist and to_file:
+        with open(text) as file:
+            print(print_upper(file.read().strip()), file=open(to_file, 'wt'))
+
+    elif to_file:
+        print(print_upper(text), file=open(to_file, 'wt'))
+
+    else:
+        print(print_upper(text))
 
 
 # --------------------------------------------------
