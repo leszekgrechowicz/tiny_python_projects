@@ -13,3 +13,4 @@ tex2pdf*
 .vscode
 
 venv
+.env
