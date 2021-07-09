@@ -4,7 +4,7 @@
 import os
 from subprocess import getoutput
 
-prg = os.getcwd() + './picnic.py'
+prg = './picnic.py'
 
 
 # --------------------------------------------------
@@ -92,8 +92,8 @@ def test_omit_oxford_comma_sorted():
 def test_word_separation_option():
     """word separation character"""
 
-    for character in [':', '@', ';']:
+    for character in [':', '@', "+"]:
         arg = 'apples bananas cherries dates'
-        out = getoutput(f'{prg} {arg} --character {character}')
+        out = getoutput(f'{prg} {arg} -c {character}')
         expected = f'You are bringing apples{character} bananas{character} cherries{character} and dates.'
         assert out.strip() == expected

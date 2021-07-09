@@ -34,7 +34,7 @@ def get_args():
     parser.add_argument('-c',
                         '--character',
                         help='Separation character',
-                        choices=[':', '@', ';'],
+                        choices=[':', '@', '+'],
                         default=',')
 
     return parser.parse_args()

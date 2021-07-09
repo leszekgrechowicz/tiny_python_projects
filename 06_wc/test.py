@@ -7,7 +7,7 @@ import re
 import string
 from subprocess import getstatusoutput
 
-prg = os.getcwd() + './wc.py'
+prg = './wc.py'
 empty = './inputs/empty.txt'
 one_line = './inputs/one.txt'
 two_lines = './inputs/two.txt'
@@ -92,8 +92,8 @@ def test_more():
 
     rv, out = getstatusoutput(f'{prg} {fox} {sonnet}')
     expected = ('       1       9      45 ../inputs/fox.txt\n'
-                '      17     118     668 ../inputs/sonnet-29.txt\n'
-                '      18     127     713 total')
+                '      17     118     660 ../inputs/sonnet-29.txt\n'
+                '      18     127     705 total')
     assert rv == 0
     assert out.rstrip() == expected
 

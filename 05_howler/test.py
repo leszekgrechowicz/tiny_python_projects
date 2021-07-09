@@ -8,7 +8,7 @@ import random
 import string
 from subprocess import getstatusoutput, getoutput
 
-prg = os.getcwd() + './howler.py'
+prg = './solution2.py'
 
 
 # --------------------------------------------------

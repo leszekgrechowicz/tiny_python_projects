@@ -4,7 +4,7 @@
 import os
 from subprocess import getstatusoutput
 
-prg = os.getcwd() + './jump_the_five.py'
+prg = './jump_the_five.py'
 
 
 # --------------------------------------------------
