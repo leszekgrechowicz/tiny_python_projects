@@ -7,12 +7,12 @@ import re
 import string
 from subprocess import getstatusoutput
 
-prg = os.getcwd() + './cat.py'
+prg = './cat.py'
 empty = './inputs/empty.txt'
 one_line = './inputs/one.txt'
 two_lines = './inputs/two.txt'
 fox = '../inputs/fox.txt'
-sonnet = '../inputs/sonnet-29.txt'
+preamble = '../inputs/preamble.txt'
 
 
 # --------------------------------------------------
@@ -56,16 +56,24 @@ def test_empty():
 
     rv, out = getstatusoutput(f'{prg} {empty}')
     assert rv == 0
-    assert out.rstrip() == '       0       0       0 ./inputs/empty.txt'
+    assert out.rstrip() == './inputs/empty.txt'
 
 
 # --------------------------------------------------
 def test_one():
-    """Test on one"""
+    """Test on file"""
 
-    rv, out = getstatusoutput(f'{prg} {one_line}')
+    rv, out = getstatusoutput(f'{prg} {preamble}')
     assert rv == 0
-    assert out.rstrip() == '       1       1       2 ./inputs/one.txt'
+    assert out == """../inputs/preamble.txt 
+
+When, in the course of human events, it becomes necessary for one people to
+dissolve the political bands which have connected them with another, and to
+assume among the powers of the earth, the separate and equal station to
+which the laws of nature and of nature's God entitle them, a decent respect
+to the opinions of mankind requires that they should declare the causes
+which impel them to the separation.
+"""
 
 
 # --------------------------------------------------
