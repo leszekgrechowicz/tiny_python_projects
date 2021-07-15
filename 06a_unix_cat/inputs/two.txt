@@ -1,0 +1,6 @@
+1 this is first line from file two
+2 this is second line from file two
+3 this is third line from file two
+4 this is fourth line from file two
+5 this is fifth line from file two
+6 this is sixth line from file two

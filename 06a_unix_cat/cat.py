@@ -33,8 +33,7 @@ def get_args():
 
     parser.add_argument('--head',
                         help="output first line",
-                        metavar='int',
-                        type=int,
+                        action='store_true'
                         )
 
     parser.add_argument('-t',
@@ -74,7 +73,7 @@ def main():
             text = text[:args.number]
 
         if args.tail:
-            text = text[:-args.tail]
+            text = text[-args.tail:]
 
         if args.head:
             text = text[:1]

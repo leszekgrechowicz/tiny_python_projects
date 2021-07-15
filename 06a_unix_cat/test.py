@@ -9,8 +9,8 @@ from subprocess import getstatusoutput
 
 prg = './cat.py'
 empty = './inputs/empty.txt'
-one_line = './inputs/one.txt'
-two_lines = './inputs/two.txt'
+one_file = './inputs/one.txt'
+two_files = './inputs/one.txt ./inputs/two.txt'
 fox = '../inputs/fox.txt'
 preamble = '../inputs/preamble.txt'
 
@@ -60,8 +60,8 @@ def test_empty():
 
 
 # --------------------------------------------------
-def test_one():
-    """Test on file"""
+def test_one_file():
+    """Test on one file"""
 
     rv, out = getstatusoutput(f'{prg} {preamble}')
     assert rv == 0
@@ -77,33 +77,82 @@ which impel them to the separation.
 
 
 # --------------------------------------------------
-def test_two():
-    """Test on two"""
+def test_two_files():
+    """Test on two files"""
 
-    rv, out = getstatusoutput(f'{prg} {two_lines}')
+    rv, out = getstatusoutput(f'{prg} {two_files}')
     assert rv == 0
-    assert out.rstrip() == '       2       2       4 ./inputs/two.txt'
+    assert out.rstrip() == """./inputs/one.txt 
+
+1 this is first line from file one
+2 this is second line from file one
+3 this is third line from file one
+4 this is fourth line from file one
+5 this is fifth line from file one
+6 this is sixth line from file one
+
+./inputs/two.txt 
+
+1 this is first line from file two
+2 this is second line from file two
+3 this is third line from file two
+4 this is fourth line from file two
+5 this is fifth line from file two
+6 this is sixth line from file two"""
 
 
 # --------------------------------------------------
-def test_fox():
-    """Test on fox"""
+def test_one_file_reversed():
+    """Test on one file option reversed """
 
-    rv, out = getstatusoutput(f'{prg} {fox}')
+    rv, out = getstatusoutput(f'{prg} {one_file} -r')
     assert rv == 0
-    assert out.rstrip() == '       1       9      45 ../inputs/fox.txt'
+    assert out.rstrip() == """./inputs/one.txt 
+
+6 this is sixth line from file one
+5 this is fifth line from file one
+4 this is fourth line from file one
+3 this is third line from file one
+2 this is second line from file one
+1 this is first line from file one"""
 
 
 # --------------------------------------------------
-def test_more():
-    """Test on more than one file"""
+def test_two_files_reversed():
+    """Test on two files option reversed """
 
-    rv, out = getstatusoutput(f'{prg} {fox} {sonnet}')
-    expected = ('       1       9      45 ../inputs/fox.txt\n'
-                '      17     118     668 ../inputs/sonnet-29.txt\n'
-                '      18     127     713 total')
+    rv, out = getstatusoutput(f'{prg} {two_files} -r')
     assert rv == 0
-    assert out.rstrip() == expected
+    assert out.rstrip() == """./inputs/one.txt 
+
+6 this is sixth line from file one
+5 this is fifth line from file one
+4 this is fourth line from file one
+3 this is third line from file one
+2 this is second line from file one
+1 this is first line from file one
+
+./inputs/two.txt 
+
+6 this is sixth line from file two
+5 this is fifth line from file two
+4 this is fourth line from file two
+3 this is third line from file two
+2 this is second line from file two
+1 this is first line from file two"""
+
+
+# --------------------------------------------------
+def test_one_file_number_of_lines_reversed():
+    """Test on one file with option reversed and number of lines"""
+
+    rv, out = getstatusoutput(f'{prg} {one_file} -rn 3')
+    assert rv == 0
+    assert out.rstrip() == """./inputs/one.txt 
+
+6 this is sixth line from file one
+5 this is fifth line from file one
+4 this is fourth line from file one"""
 
 
 # --------------------------------------------------
@@ -112,74 +161,31 @@ def test_stdin():
 
     rv, out = getstatusoutput(f'{prg} < {fox}')
     assert rv == 0
-    assert out.rstrip() == '       1       9      45 <stdin>'
+    assert out.rstrip() == """<stdin> 
+
+The quick brown fox jumps over the lazy dog."""
 
 
 # --------------------------------------------------
-def test_fox_char():
-    """Test on fox with flag -c"""
+def test_one_file_head():
+    """Test on one option head"""
 
-    for flag in ['-c', '--char']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
-        assert rv == 0
-        assert out.rstrip() == '      45 ../inputs/fox.txt'
+    rv, out = getstatusoutput(f'{prg} {one_file} --head')
+    assert rv == 0
+    assert out.rstrip() == """./inputs/one.txt 
 
-
-# --------------------------------------------------
-def test_fox_word():
-    """Test on fox with flag -w"""
-
-    for flag in ['-w', '--word']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
-        assert rv == 0
-        assert out.rstrip() == '       9 ../inputs/fox.txt'
+1 this is first line from file one"""
 
 
 # --------------------------------------------------
-def test_fox_lines():
-    """Test on fox with flag -l"""
+def test_one_file_tail():
+    """Test on one file number of last lines"""
 
-    for flag in ['-l', '--lines']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
+    for flag in ['-t', '--tail']:
+        rv, out = getstatusoutput(f'{prg} {one_file} {flag} 3')
         assert rv == 0
-        assert out.rstrip() == '       1 ../inputs/fox.txt'
+        assert out.rstrip() == """./inputs/one.txt 
 
-
-# --------------------------------------------------
-def test_fox_mix_flag_lc():
-    """Test on fox with mix flag -lc"""
-
-    for flag in ['-cl', '-lc']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
-        assert rv == 0
-        assert out.rstrip() == '       1      45 ../inputs/fox.txt'
-
-
-# --------------------------------------------------
-def test_fox_mix_flag_cw():
-    """Test on fox with mix flag -cw"""
-
-    for flag in ['-cw', '-wc']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
-        assert rv == 0
-        assert out.rstrip() == '       9      45 ../inputs/fox.txt'
-
-
-# --------------------------------------------------
-def test_fox_mix_flag_lw():
-    """Test on fox with mix flag -lw"""
-
-    for flag in ['-wl', '-lw']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
-        assert rv == 0
-        assert out.rstrip() == '       1       9 ../inputs/fox.txt'
-
-
-# --------------------------------------------------
-def test_fox_all_flag():
-    """Test on fox with flag -clw"""
-
-    for flag in ['-cwl', '-wcl', '-wlc', '-lwc', '-lcw', '-clw']:
-        rv, out = getstatusoutput(f'{prg} {fox} {flag}')
-        assert rv == 0
-        assert out.rstrip() == '       1       9      45 ../inputs/fox.txt'
+4 this is fourth line from file one
+5 this is fifth line from file one
+6 this is sixth line from file one"""
