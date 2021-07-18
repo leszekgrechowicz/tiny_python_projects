@@ -100,6 +100,15 @@ def test_bad_letter():
 
 
 # --------------------------------------------------
+def test_no_letter():
+    """Test for bad input"""
+
+    rv, out = getstatusoutput(f'{prg}')
+    assert rv != 0
+    assert re.match("usage", out, re.IGNORECASE)
+
+
+# --------------------------------------------------
 def random_string():
     """generate a random string"""
 
