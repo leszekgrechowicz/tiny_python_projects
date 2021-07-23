@@ -30,6 +30,7 @@ def get_args():
                         choices=['a', 'e', 'i', 'o', 'u'])
 
     out = parser.parse_args()
+
     if path.isfile(out.text):
         out.text = open(f'{out.text}').read()
 
@@ -40,23 +41,29 @@ def get_args():
 def main():
     """Make a jazz noise here"""
     choices = ['a', 'e', 'i', 'o', 'u']
-    args = get_args()
-    text = args.text
-    test_upper = text[:5]
 
-    upper = False
-    if test_upper.isupper():
-        upper = True
-    vowel = args.vowel
-    if upper:
-        vowel = vowel.upper()
+    args = get_args()
+
+    text = args.text
+
+    text_out = ''
 
     for i in text:
+        vowel = args.vowel
+        upper = False
 
-        if i != vowel and i.lower() in choices:
-            text = text.replace(i, vowel)
+        if i.isupper():
+            upper = True
 
-    print(text)
+        if upper:
+            vowel = vowel.upper()
+
+        if i.lower() in choices:
+            text_out += vowel
+        else:
+            text_out += i
+
+    print(text_out)
 
 
 # --------------------------------------------------
